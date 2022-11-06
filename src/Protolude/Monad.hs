@@ -58,12 +58,3 @@ liftM2' f a b = do
   let z = f x y
   z `seq` return z
 {-# INLINE liftM2' #-}
-
-#if !MIN_VERSION_base(4,8,0)
-(<$!>) :: Monad m => (a -> b) -> m a -> m b
-f <$!> m = do
-  x <- m
-  let z = f x
-  z `seq` return z
-{-# INLINE (<$!>) #-}
-#endif

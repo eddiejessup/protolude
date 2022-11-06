@@ -2,9 +2,8 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DeriveDataTypeable #-}
-#if MIN_VERSION_base(4,9,0)
+
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-#endif
 
 module Protolude.Panic (
   FatalError(FatalError, fatalErrorMessage),

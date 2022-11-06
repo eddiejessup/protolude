@@ -11,10 +11,6 @@ module Protolude (
   module Base,
   identity,
   pass,
-#if !MIN_VERSION_base(4,8,0)
-  (&),
-  scanl',
-#endif
   -- * Function functions
   module Function,
   applyN,
@@ -28,13 +24,11 @@ module Protolude (
   -- * Show functions
   module Show,
   show,
-  print,
   -- * Bool functions
   module Bool,
   -- * Monad functions
+  lift,
   module Monad,
-  liftIO1,
-  liftIO2,
   -- * Functor functions
   module Functor,
   -- * Either functions
@@ -52,8 +46,6 @@ module Protolude (
   module Panic,
   -- * Exception functions
   module Exception,
-  Protolude.throwIO,
-  Protolude.throwTo,
   -- * Semiring functions
   module Semiring,
 
@@ -70,9 +62,7 @@ module Protolude (
   -- * Foldable functions
   module Foldable,
   -- * Semigroup functions
-#if MIN_VERSION_base(4,9,0)
   module Semigroup,
-#endif
   -- * Monoid functions
   module Monoid,
   -- * Bifunctor functions
@@ -88,19 +78,8 @@ module Protolude (
 
   module Typeable,
 
-#if MIN_VERSION_base(4,7,0)
   -- * Typelevel programming
   module Typelevel,
-#endif
-
-  -- * Monads
-  module Fail,
-  module State,
-  module Reader,
-  module Except,
-  module Trans,
-  module ST,
-  module STM,
 
   -- * Integers
   module Int,
@@ -230,10 +209,8 @@ import Data.Foldable as Foldable (
     foldl,
     foldl',
     toList,
-#if MIN_VERSION_base(4,8,0)
     null,
     length,
-#endif
     elem,
     maximum,
     minimum,
@@ -262,7 +239,6 @@ import Data.Functor.Identity as Functor (
     Identity(Identity, runIdentity)
   )
 
-#if MIN_VERSION_base(4,9,0)
 import Data.List.NonEmpty as List (
     NonEmpty((:|))
   , nonEmpty
@@ -277,22 +253,10 @@ import Data.Semigroup as Semigroup (
   , stimesIdempotentMonoid
   , mtimesDefault
   )
-#endif
-
-#if MIN_VERSION_base(4,9,0) && !MIN_VERSION_base(4,16,0)
-import Data.Semigroup as Semigroup (
-    Option(..)
-  , option
-  )
-#endif
 
 import Data.Monoid as Monoid
 
-#if !MIN_VERSION_base(4,8,0)
-import Protolude.Bifunctor as Bifunctor (Bifunctor(bimap, first, second))
-#else
 import Data.Bifunctor as Bifunctor (Bifunctor(bimap, first, second))
-#endif
 
 -- Deepseq
 import Control.DeepSeq as DeepSeq (
@@ -330,9 +294,7 @@ import Data.List as List (
   , subsequences
   , permutations
   , scanl
-#if MIN_VERSION_base(4,8,0)
   , scanl'
-#endif
   , scanr
   , iterate
   , repeat
@@ -352,12 +314,6 @@ import Data.List as List (
   , genericSplitAt
   , genericReplicate
   )
-
-#if !MIN_VERSION_base(4,8,0)
--- These imports are required for the scanl' rewrite rules
-import GHC.Exts (build)
-import Data.List (tail)
-#endif
 
 -- Hashing
 import Data.Hashable as Hashable (
@@ -379,13 +335,10 @@ import Data.Typeable as Typeable (
   , typeOf
   , cast
   , gcast
-#if MIN_VERSION_base(4,7,0)
   , typeRep
   , eqT
-#endif
   )
 
-#if MIN_VERSION_base(4,7,0)
 import Data.Proxy as Typelevel (
     Proxy(..)
   )
@@ -405,76 +358,14 @@ import Data.Type.Equality as Typelevel (
   , gcastWith
   )
 
-#endif
-
-#if MIN_VERSION_base(4,8,0)
 import Data.Void as Typelevel (
     Void
   , absurd
   , vacuous
   )
-#endif
-
-import Control.Monad.Fail as Fail (
-    MonadFail
-  )
-
--- Monad transformers
-import Control.Monad.State as State (
-    MonadState
-  , State
-  , StateT(StateT)
-  , put
-  , get
-  , gets
-  , modify
-  , state
-  , withState
-
-  , runState
-  , execState
-  , evalState
-
-  , runStateT
-  , execStateT
-  , evalStateT
-  )
-
-import Control.Monad.Reader as Reader (
-    MonadReader
-  , Reader
-  , ReaderT(ReaderT)
-  , ask
-  , asks
-  , local
-  , reader
-  , runReader
-  , runReaderT
-  )
-
-import Control.Monad.Trans.Except as Except (
-    throwE
-  , catchE
-  )
-
-import Control.Monad.Except as Except (
-    MonadError
-  , Except
-  , ExceptT(ExceptT)
-  , throwError
-  , catchError
-  , runExcept
-  , runExceptT
-  , mapExcept
-  , mapExceptT
-  , withExcept
-  , withExceptT
-  )
 
 import Control.Monad.Trans as Trans (
-    MonadIO
-  , lift
-  , liftIO
+    lift
   )
 
 -- Base types
@@ -493,17 +384,13 @@ import Data.Bits as Bits (
   complement,
   shift,
   rotate,
-#if MIN_VERSION_base(4,7,0)
   zeroBits,
-#endif
   bit,
   setBit,
   clearBit,
   complementBit,
   testBit,
-#if MIN_VERSION_base(4,7,0)
   bitSizeMaybe,
-#endif
   bitSize,
   isSigned,
   shiftL,
@@ -511,18 +398,14 @@ import Data.Bits as Bits (
   rotateL,
   rotateR,
   popCount,
-#if MIN_VERSION_base(4,7,0)
   FiniteBits,
   finiteBitSize,
   bitDefault,
   testBitDefault,
   popCountDefault,
-#endif
-#if MIN_VERSION_base(4,8,0)
   toIntegralSized,
   countLeadingZeros,
   countTrailingZeros,
-#endif
   )
 import Data.Word as Bits (
     Word
@@ -530,11 +413,9 @@ import Data.Word as Bits (
   , Word16
   , Word32
   , Word64
-#if MIN_VERSION_base(4,7,0)
   , byteSwap16
   , byteSwap32
   , byteSwap64
-#endif
   )
 
 import Data.Either as Either (
@@ -543,10 +424,8 @@ import Data.Either as Either (
   , lefts
   , rights
   , partitionEithers
-#if MIN_VERSION_base(4,7,0)
   , isLeft
   , isRight
-#endif
   )
 
 import Data.Complex as Complex (
@@ -607,9 +486,7 @@ import Data.Function as Function (
   , flip
   , fix
   , on
-#if MIN_VERSION_base(4,8,0)
   , (&)
-#endif
   )
 
 -- Genericss
@@ -633,11 +510,9 @@ import GHC.Generics as Generics (
   , Selector(..)
   , Fixity(..)
   , Associativity(..)
-#if ( __GLASGOW_HASKELL__ >= 800 )
   , Meta(..)
   , FixityI(..)
   , URec
-#endif
   )
 
 -- ByteString
@@ -705,21 +580,12 @@ import System.IO as System (
   , openFile
   )
 
--- ST
-import Control.Monad.ST as ST (
-    ST
-  , runST
-  , fixST
-  )
-
 -- Concurrency and Parallelism
 import Control.Exception as Exception (
     Exception,
     toException,
     fromException,
-#if MIN_VERSION_base(4,8,0)
     displayException,
-#endif
     SomeException(SomeException)
   , IOException
   , ArithException(
@@ -732,36 +598,24 @@ import Control.Exception as Exception (
     )
   , ArrayException(IndexOutOfBounds, UndefinedElement)
   , AssertionFailed(AssertionFailed)
-#if MIN_VERSION_base(4,7,0)
   , SomeAsyncException(SomeAsyncException)
   , asyncExceptionToException
   , asyncExceptionFromException
-#endif
   , AsyncException(StackOverflow, HeapOverflow, ThreadKilled, UserInterrupt)
   , NonTermination(NonTermination)
   , NestedAtomically(NestedAtomically)
   , BlockedIndefinitelyOnMVar(BlockedIndefinitelyOnMVar)
   , BlockedIndefinitelyOnSTM(BlockedIndefinitelyOnSTM)
-#if MIN_VERSION_base(4,8,0)
   , AllocationLimitExceeded(AllocationLimitExceeded)
-#endif
-#if MIN_VERSION_base(4,10,0)
   , CompactionFailed(CompactionFailed)
-#endif
   , Deadlock(Deadlock)
   , NoMethodError(NoMethodError)
   , PatternMatchFail(PatternMatchFail)
   , RecConError(RecConError)
   , RecSelError(RecSelError)
   , RecUpdError(RecUpdError)
-#if MIN_VERSION_base(4,9,0)
   , ErrorCall(ErrorCall, ErrorCallWithLocation)
-#else
-  , ErrorCall(ErrorCall)
-#endif
-#if MIN_VERSION_base(4,9,0)
   , TypeError(TypeError)
-#endif
   , ioError
   , catch
   , catches
@@ -779,9 +633,7 @@ import Control.Exception as Exception (
   , uninterruptibleMask_
   , MaskingState(..)
   , getMaskingState
-#if MIN_VERSION_base(4,9,0)
   , interruptible
-#endif
   , allowInterrupt
   , bracket
   , bracket_
@@ -790,20 +642,6 @@ import Control.Exception as Exception (
   , onException
   )
 import qualified Control.Exception as PException
-
-import Control.Monad.STM as STM (
-    STM
-  , atomically
-#if !(MIN_VERSION_stm(2,5,0))
-  , always
-  , alwaysSucceeds
-#endif
-  , retry
-  , orElse
-  , check
-  , throwSTM
-  , catchSTM
-  )
 
 import Control.Concurrent.MVar as Concurrency (
     MVar
@@ -817,17 +655,13 @@ import Control.Concurrent.MVar as Concurrency (
   , tryPutMVar
   , isEmptyMVar
   , withMVar
-#if MIN_VERSION_base(4,7,0)
   , withMVarMasked
-#endif
   , modifyMVar_
   , modifyMVar
   , modifyMVarMasked_
   , modifyMVarMasked
-#if MIN_VERSION_base(4,7,0)
   , tryReadMVar
   , mkWeakMVar
-#endif
   , addMVarFinalizer
   )
 import Control.Concurrent.Chan as Concurrency (
@@ -866,15 +700,11 @@ import Control.Concurrent as Concurrency (
   , threadDelay
   , threadWaitRead
   , threadWaitWrite
-#if MIN_VERSION_base(4,7,0)
   , threadWaitReadSTM
   , threadWaitWriteSTM
-#endif
   , rtsSupportsBoundThreads
   , forkOS
-#if MIN_VERSION_base(4,9,0)
   , forkOSWithUnmask
-#endif
   , isCurrentThreadBound
   , runInBoundThread
   , runInUnboundThread
@@ -929,13 +759,6 @@ type LText = Data.Text.Lazy.Text
 type LByteString = Data.ByteString.Lazy.ByteString
 
 
-#if !MIN_VERSION_base(4,8,0)
-infixl 1 &
-
-(&) :: a -> (a -> b) -> b
-x & f = f x
-#endif
-
 -- | The identity function, returns the give value unchanged.
 identity :: a -> a
 identity x = x
@@ -981,21 +804,6 @@ readMaybe = Read.readMaybe . Conv.toS
 readEither :: (Read a, Conv.StringConv String e, Conv.StringConv e String) => e -> Either e a
 readEither = first Conv.toS . Read.readEither . Conv.toS
 
--- | The print function outputs a value of any printable type to the standard
--- output device. Printable types are those that are instances of class Show;
--- print converts values to strings for output using the show operation and adds
--- a newline.
-print :: (Trans.MonadIO m, PBase.Show a) => a -> m ()
-print = liftIO . PBase.print
-
--- | Lifted throwIO
-throwIO :: (Trans.MonadIO m, Exception e) => e -> m a
-throwIO = liftIO . PException.throwIO
-
--- | Lifted throwTo
-throwTo :: (Trans.MonadIO m, Exception e) => ThreadId -> e -> m ()
-throwTo tid e = liftIO (PException.throwTo tid e)
-
 -- | Do nothing returning unit inside applicative.
 pass :: Applicative f => f ()
 pass = pure ()
@@ -1006,55 +814,12 @@ guarded p x = Bool.bool empty (pure x) (p x)
 guardedA :: (Functor.Functor f, Alternative t) => (a -> f Bool) -> a -> f (t a)
 guardedA p x = Bool.bool empty (pure x) `Functor.fmap` p x
 
--- | Lift an 'IO' operation with 1 argument into another monad
-liftIO1 :: MonadIO m => (a -> IO b) -> a -> m b
-liftIO1 = (.) liftIO
-
--- | Lift an 'IO' operation with 2 arguments into another monad
-liftIO2 :: MonadIO m => (a -> b -> IO c) -> a -> b -> m c
-liftIO2 = ((.).(.)) liftIO
-
 show :: (Show a, Conv.StringConv String b) => a -> b
 show x = Conv.toS (PBase.show x)
 {-# SPECIALIZE show :: Show  a => a -> Text  #-}
 {-# SPECIALIZE show :: Show  a => a -> LText  #-}
 {-# SPECIALIZE show :: Show  a => a -> String  #-}
 
-#if MIN_VERSION_base(4,8,0)
 -- | Terminate main process with failure
 die :: Text -> IO a
 die err = System.Exit.die (ConvertText.toS err)
-#else
--- | Terminate main process with failure
-die :: Text -> IO a
-die err = hPutStrLn stderr err >> exitFailure
-#endif
-
-#if !MIN_VERSION_base(4,8,0)
--- This is a literal copy of the implementation in GHC.List in base-4.10.1.0.
-
--- | A strictly accumulating version of 'scanl'
-{-# NOINLINE [1] scanl' #-}
-scanl'           :: (b -> a -> b) -> b -> [a] -> [b]
-scanl' = scanlGo'
-  where
-    scanlGo'           :: (b -> a -> b) -> b -> [a] -> [b]
-    scanlGo' f !q ls    = q : (case ls of
-                            []   -> []
-                            x:xs -> scanlGo' f (f q x) xs)
-
-{-# RULES
-"scanl'"  [~1] forall f a bs . scanl' f a bs =
-  build (\c n -> a `c` foldr (scanlFB' f c) (flipSeqScanl' n) bs a)
-"scanlList'" [1] forall f a bs .
-    foldr (scanlFB' f (:)) (flipSeqScanl' []) bs a = tail (scanl' f a bs)
- #-}
-
-{-# INLINE [0] scanlFB' #-}
-scanlFB' :: (b -> a -> b) -> (b -> c -> c) -> a -> (b -> c) -> b -> c
-scanlFB' f c = \b g -> \x -> let !b' = f x b in b' `c` g b'
-
-{-# INLINE [0] flipSeqScanl' #-}
-flipSeqScanl' :: a -> b -> a
-flipSeqScanl' a !_b = a
-#endif

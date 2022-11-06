@@ -11,7 +11,6 @@ module Protolude.Base (
 ) where
 
 -- Glorious Glasgow Haskell Compiler
-#if defined(__GLASGOW_HASKELL__) && ( __GLASGOW_HASKELL__ >= 600 )
 
 -- Base GHC types
 import GHC.Num as Base (
@@ -59,20 +58,12 @@ import GHC.Real as Base (
   , denominator
   , div
   , divMod
-#if MIN_VERSION_base(4,7,0)
   , divZeroError
-#endif
   , even
   , floor
   , fromIntegral
   , fromRational
   , gcd
-#if MIN_VERSION_base(4,9,0) && !MIN_VERSION_base(4,15,0)
-#if defined(MIN_VERSION_integer_gmp)
-  , gcdInt'
-  , gcdWord'
-#endif
-#endif
   , infinity
   , integralEnumFrom
   , integralEnumFromThen
@@ -87,17 +78,13 @@ import GHC.Real as Base (
   , numericEnumFromThenTo
   , numericEnumFromTo
   , odd
-#if MIN_VERSION_base(4,7,0)
   , overflowError
-#endif
   , properFraction
   , quot
   , quotRem
   , ratioPrec
   , ratioPrec1
-#if MIN_VERSION_base(4,7,0)
   , ratioZeroDenominatorError
-#endif
   , realToFrac
   , recip
   , reduce
@@ -107,9 +94,7 @@ import GHC.Real as Base (
   , toInteger
   , toRational
   , truncate
-#if MIN_VERSION_base(4,12,0)
   , underflowError
-#endif
   )
 import GHC.Float as Base (
     Float(F#)
@@ -151,16 +136,11 @@ import GHC.Types as Base (
   , Word
   , Ordering
   , IO
-#if ( __GLASGOW_HASKELL__ >= 710 )
   , Coercible
-#endif
   )
 
-#if ( __GLASGOW_HASKELL__ >= 710 )
 import GHC.StaticPtr as Base (StaticPtr)
-#endif
 
-#if ( __GLASGOW_HASKELL__ >= 800 )
 import GHC.OverloadedLabels as Base (
     IsLabel(fromLabel)
   )
@@ -182,9 +162,7 @@ import GHC.Stack as Base (
   , prettyCallStack
   , withFrozenCallStack
   )
-#endif
 
-#if ( __GLASGOW_HASKELL__ >= 710 )
 import GHC.TypeLits as Base (
     Symbol
   , SomeSymbol(SomeSymbol)
@@ -198,28 +176,17 @@ import GHC.TypeLits as Base (
   , symbolVal
   , someSymbolVal
   )
-#endif
 
-#if ( __GLASGOW_HASKELL__ >= 802 )
 import GHC.Records as Base (
     HasField(getField)
   )
-#endif
 
-#if ( __GLASGOW_HASKELL__ >= 800 )
 import Data.Kind as Base (
   type Type
-#if ( __GLASGOW_HASKELL__ < 805 )
-  , type (*)
-#endif
-  , type Type
   )
-#endif
 
 -- Default Prelude defines this at the toplevel module, so we do as well.
 infixr 0 $!
 
 ($!) :: (a -> b) -> a -> b
 f $! x  = let !vx = x in f vx
-
-#endif

@@ -1,4 +1,4 @@
-{-# LANGUAGE Safe #-}
+
 {-# LANGUAGE NoImplicitPrelude #-}
 
 module Protolude.Bool (

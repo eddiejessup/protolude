@@ -1,6 +1,5 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE Trustworthy #-}
-{-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE ExplicitNamespaces #-}
@@ -46,8 +45,6 @@ module Protolude (
   module Panic,
   -- * Exception functions
   module Exception,
-  -- * Semiring functions
-  module Semiring,
 
   -- * String functions
   module String,
@@ -112,13 +109,6 @@ module Protolude (
 
   -- * System functions
   module System,
-  die,
-
-  -- * Concurrency functions
-  module Concurrency,
-
-  -- * Foreign functions
-  module Foreign,
 ) where
 
 -- Protolude module exports.
@@ -129,11 +119,9 @@ import Protolude.Bool as Bool
 import Protolude.Monad as Monad
 import Protolude.Functor as Functor
 import Protolude.Either as Either
-import Protolude.Applicative as Applicative
 import Protolude.ConvertText as ConvertText
 import Protolude.Panic as Panic
 import Protolude.Exceptions as Exception
-import Protolude.Semiring as Semiring
 import qualified Protolude.Conv as Conv
 
 import Protolude.Base as Base hiding (

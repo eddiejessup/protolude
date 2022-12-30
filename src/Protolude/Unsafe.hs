@@ -13,9 +13,7 @@ module Protolude.Unsafe (
   unsafeRead,
 ) where
 
-import Protolude.Base (Int)
-
-import Protolude.Base (HasCallStack)
+import Protolude.Base (Int, HasCallStack)
 import Data.Char (Char)
 import Text.Read (Read, read)
 import qualified Data.List as List

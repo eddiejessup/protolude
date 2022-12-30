@@ -23,9 +23,7 @@ source-repository head
 library
   exposed-modules:
       Protolude
-      Protolude.Applicative
       Protolude.Base
-      Protolude.Bifunctor
       Protolude.Bool
       Protolude.CallStack
       Protolude.Conv
@@ -40,7 +38,6 @@ library
       Protolude.Panic
       Protolude.Partial
       Protolude.Safe
-      Protolude.Semiring
       Protolude.Show
       Protolude.Unsafe
   other-modules:

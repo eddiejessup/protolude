@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE Safe #-}
+
 
 -- | Non-partial text conversion typeclass and functions.
 -- For an alternative with partial conversions import 'Protolude.Conv'.

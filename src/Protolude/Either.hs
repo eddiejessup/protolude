@@ -1,5 +1,5 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE Safe #-}
+
 {-# LANGUAGE NoImplicitPrelude #-}
 
 module Protolude.Either (
@@ -16,8 +16,7 @@ module Protolude.Either (
 import Data.Function (const)
 import Data.Monoid (Monoid, mempty)
 import Data.Maybe (Maybe(Nothing, Just), maybe)
-import Data.Either (Either(Left, Right), either)
-import Data.Either (fromLeft, fromRight)
+import Data.Either (Either(Left, Right), either, fromLeft, fromRight)
 
 leftToMaybe :: Either l r -> Maybe l
 leftToMaybe = either Just (const Nothing)
